@@ -1,10 +1,10 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { fetchFiles } from "@/apis/uploadApi";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import FileTable from "@/components/FileTable";
-
+import { logoutUser } from "@/apis/loginApi";
 const Page = () => {
   const router = useRouter();
   // @ts-ignore
@@ -22,11 +22,25 @@ const Page = () => {
     router.push('/')
   }
   let tableData = data?.data?.data
-  console.log("data", data);
-  console.log("isError", isError);
-  console.log("tableData",tableData)
+  const {mutate: logout} = useMutation({ // Using React Query approach
+    mutationFn: async () => {
+      const response = await logoutUser()
+      return response
+    },
+    onError: (error: any | null, variables, context) => {
+      console.log(error)
+      alert(error?.response?.data?.msg);
+      alert("Please login again, token expired!")
+      router.push('/')
+    },
+    onSuccess: (data: any, variables, context) => {
+      console.log(data);
+      router.push('/')
+    },
+  })
   return (
-    <>
+    <div>
+      <Button variant="outline" className="mb-[10px]" onClick={() => logout()}>Logout</Button>
       <div className=" shadow-sm border-[#E4E4E7] border-solid border-[1px] rounded-lg md:min-w-[920px] flex items-center justify-center">
         <div className="p-[10px_40px_20px_40px] flex justify-center flex-col items-center">
           <Button className="mt-[10px] mb-[15px]" variant="outline" onClick={() => router.push('/upload')}>
@@ -45,7 +59,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Page;

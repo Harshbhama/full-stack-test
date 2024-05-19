@@ -93,4 +93,15 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post('/logout', async (req, res) => {
+
+  res.cookie("token", "", {
+    httpOnly: true,
+    maxAge: 1000000000,
+  });
+  res.status(200).json({
+    error: false,
+    msg: "User Logged out",
+  });
+})
 module.exports = router;

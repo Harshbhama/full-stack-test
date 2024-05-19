@@ -15,3 +15,17 @@ export const loginUser = (payload: FormDetailTypes, register: Boolean) => {
     });
   })
 }
+
+export const logoutUser = () => {
+  return new Promise<void>((resolve, reject) => {
+    axios({
+      url:  `${BackendUrl}/authenticate/logout`,
+      method: 'post',
+      withCredentials: true
+    }).then((result: any) => {
+      resolve(result)
+    }).catch(err => {
+      reject(err)
+    });
+  })
+}
