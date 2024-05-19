@@ -2,11 +2,9 @@ const express = require("express");
 const router = express.Router();
 var jwt = require("jsonwebtoken");
 var validator = require("validator");
-const { imageConversion } = require("../helpers/imageProcessing");
 const { imageQueues } = require("../helpers/imageQueue");
 const { authenticateToken } = require("../helpers/utils");
 const { checkImagesForUser, deleteDbImages } = require("../db/uploadDb");
-const { imageKitMethod } = require("../helpers/imageKitUpload");
 router.post("/uploadImage", async (req, res) => {
   const inputProps = req.headers?.["inputdata"];
 
@@ -19,9 +17,7 @@ router.post("/uploadImage", async (req, res) => {
     return false;
   }
   try {
-    console.log("inputProps", inputProps);
     const parsed = JSON.parse(inputProps);
-    console.log("parsed", parsed);
     const timeString = parsed?.timeFormat;
     const [hours, minutes] = timeString.split(":");
     const { year, month, day } = parsed?.dateFormat;
@@ -49,17 +45,6 @@ router.post("/uploadImage", async (req, res) => {
   }
 });
 
-router.post("/test", async (req, res) => {
-  try {
-    const token = req.body.token;
-    let tokeDetails = await authenticateToken(token);
-    const userID = tokeDetails?.userId;
-  } catch (error) {
-    console.log("error", error);
-  }
-
-  // await imageQueues(userID);
-});
 
 router.get("/images", async (req, res) => {
   try {

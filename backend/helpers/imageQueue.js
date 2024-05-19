@@ -6,9 +6,8 @@ const { checkForUsersDb, uploadUserImageDb } = require('../db/uploadDb');
 
 let queues = {};
 
-const makeQueue = async () => {
-  let usersFromDb = await checkForUsersDb();
-  console.log("usersFromDb",usersFromDb)
+const makeQueue = async () => { // This function is called at initialization and every time new user is registered.
+  let usersFromDb = await checkForUsersDb(); // Making Queues for each user.
   for(let i=0; i<usersFromDb.length; i++){
     queues[usersFromDb[i]?.id] = new Queue(`${usersFromDb[i]?.id}_image_processing`, 'redis://127.0.0.1:6379')
   }
