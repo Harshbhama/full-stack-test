@@ -28,4 +28,5 @@ model images {
   status String?
   timestamp String?
   jobId String?
+  base64String String?
 }

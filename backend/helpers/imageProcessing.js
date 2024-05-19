@@ -1,5 +1,5 @@
 var Jimp = require("jimp");
-const { getCurrentDate } = require('./utils');
+
 const imageConversion = async (file, name) => {
   const buffer = Buffer.from(file, 'base64');
   return new Promise((resolve, reject) => {

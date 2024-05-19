@@ -1,37 +1,75 @@
-'use client'
-import Image from "next/image";
-import { FileUpload } from "@/components/FileUpload";
-import { useState } from "react";
+"use client";
 import { Button } from "@/components/ui/button";
-import { uploadImage } from "@/apis/uploadApi";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "@/apis/loginApi";
+import { FormDetailTypes } from "@/helpers/interface";
+import { useRouter } from 'next/navigation'
 export default function Home() {
-  const [file, setFile] = useState<any>("");
-  const onSubmit = () => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('fileName', file.name);
-    if(!file){
-      alert("PLease upload file")
-    }
-    let data = {
-      formData: formData
-    }
-    uploadImage(data).then(res => {
-      console.log(res);
-    })
-    // store.dispatch(uploadStoryThunk(data)).then(res => {
-    //   if(res.payload.data.error === false){
-    //   if(res?.payload?.data?.error === false){
-    //       alert("File uploaded successfully");
-    //   }else{
-    //     alert("Some error while uploading")
-    //   }
-    // })
-  }
+  const [form, setForm] = useState<Boolean>(false);
+  const [register, setRegister] = useState<Boolean>(false);
+  const [formDetails, setFormDetails] = useState<FormDetailTypes>({
+    email: '',
+    password: ''
+  })
+  const formMethod = (condition: Boolean, reg: Boolean): void => {
+    setForm(condition);
+    setRegister(reg);
+  };
+  const router = useRouter()
+  const {mutate: login} = useMutation({ // Using React Query approach
+    mutationFn: async () => {
+      const response = await loginUser(formDetails, register)
+      return response
+    },
+    onError: (error: any | null, variables, context) => {
+      console.log(error)
+      alert(error?.response?.data?.msg);
+    },
+    onSuccess: (data: any, variables, context) => {
+      console.log(data);
+      router.push('/files');
+    },
+  })
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-    <FileUpload fileProps={{name: "Upload Snap !", className: "w-2/4"}} setFile={setFile}/>
-    <Button onClick={onSubmit}> Submit</Button>
-    </main>
+    <>
+      {!form ? (
+        <div className="flex gap-5 flex-row ">
+          <Button onClick={() => formMethod(true, true)}>Register</Button>
+          <Button onClick={() => formMethod(true, false)}>Login</Button>
+        </div>
+      ) : (
+        <div className=" shadow-sm border-[#E4E4E7] border-solid border-[1px] rounded-lg min-w-[407px]">
+          <div className="p-[32px_24px_32px_24px]">
+            <h3 className=" text-[#09090B] text-[24px] font-semibold tracking-[-2.5%] leading-[32px] pb-[20px]">
+              {register ? <span>Create Account</span> : <span>Login</span>}
+            </h3>
+            <h5 className="text-[#09090B] text-[14px] leading-[14px] font-medium pb-[10px]">
+              Email
+            </h5>
+            <Input
+              type="email"
+              placeholder="m@example.com"
+              className="mb-[20px]"
+              onChange={(e) => setFormDetails({
+                ...formDetails,
+                email: e.target.value
+              })}
+            />
+            <h5 className="text-[#09090B] text-[14px] leading-[14px] font-medium pb-[10px]">
+              Password
+            </h5>
+            <Input type="email" className="mb-[20px]"
+            onChange={(e) => setFormDetails({
+              ...formDetails,
+              password: e.target.value
+            })}
+            />
+            <Button className="w-full" onClick={() => login()}>{register ? <span>Create Account</span> : <span>Login</span>}</Button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient();
 
-const uploadUserImageDb = async (userId, path, uploaded = false, status = "", timestamp="", ) => {
+const uploadUserImageDb = async (userId, path, uploaded = false, status = "In Queue", timestamp="", base64="") => {
   return new Promise(async (resolve, reject) => {
     try{
       if(!uploaded){
@@ -9,8 +9,9 @@ const uploadUserImageDb = async (userId, path, uploaded = false, status = "", ti
           data:{
             userId: userId,
             path: path,
-            status: 'In Queue',
-            timestamp: timestamp
+            status: status,
+            timestamp: timestamp,
+            base64String: base64
           } 
         })
       }
@@ -36,4 +37,21 @@ const checkForUsersDb = () => {
     resolve(result);
   })
 }
-module.exports = { uploadUserImageDb: uploadUserImageDb, checkForUsersDb:  checkForUsersDb}
+
+const checkImagesForUser = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+      let result = await prisma.images.findMany({
+        where: {
+          userId: userId
+        }
+      })
+      resolve(result);
+    }catch(error){
+      reject(error);
+    }
+  })
+}
+
+
+module.exports = { uploadUserImageDb: uploadUserImageDb, checkForUsersDb:  checkForUsersDb, checkImagesForUser: checkImagesForUser}
