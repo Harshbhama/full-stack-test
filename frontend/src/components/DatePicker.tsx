@@ -18,14 +18,19 @@ const DatePicker: React.FC<any> = ({setDateInFormat}) => {
   console.log("date",date);
   
   useEffect(() => {
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Adding 1 because getMonth() is zero-indexed
-    const day = date.getDate();
-    setDateInFormat({
-      year: year,
-      month: month,
-      day: day
-    })
+    if(!date){
+      setDate(new Date())
+    }else{
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1; // Adding 1 because getMonth() is zero-indexed
+      const day = date.getDate();
+      setDateInFormat({
+        year: year,
+        month: month,
+        day: day
+      })
+    }
+    
   },[date])
   return (
     <Popover>

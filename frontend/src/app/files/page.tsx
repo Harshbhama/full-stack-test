@@ -13,13 +13,18 @@ const Page = () => {
     queryFn: async () => {
       return await fetchFiles();
     },
+    refetchInterval: 3000
   });
   if (isError) {
     router.push("/");
     alert("Invalid token, please login again");
+    alert("Please login again, token expired!")
+    router.push('/')
   }
+  let tableData = data?.data?.data
   console.log("data", data);
   console.log("isError", isError);
+  console.log("tableData",tableData)
   return (
     <>
       <div className=" shadow-sm border-[#E4E4E7] border-solid border-[1px] rounded-lg md:min-w-[920px] flex items-center justify-center">
@@ -28,7 +33,7 @@ const Page = () => {
             Upload
           </Button>
           <div className="shadow-sm border-[#E4E4E7] border-solid border-[1px] rounded-lg flex items-center justify-center md:min-w-[600px] mb-[15px]">
-            <FileTable />
+            {!!tableData?.length && <FileTable tableData={tableData}/>}
           </div>
           <div className="flex flex-row gap-4">
             <Button className=" mb-[15px] text-[#18181B]" variant="outline">

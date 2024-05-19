@@ -7,8 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
-const FileTable = () => {
+import { UserDataTypes } from "@/helpers/interface";
+const BackendUrl = process.env.BACKEND_URL || "http://localhost:4000"
+const FileTable: React.FC<UserDataTypes> = ({ tableData }) => {
   return (
     <Table>
       <TableHeader>
@@ -19,16 +20,21 @@ const FileTable = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow>
-          <TableCell className="font-medium">INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-        </TableRow>
-        <TableRow>
-          <TableCell className="font-medium">INV001</TableCell>
-          <TableCell>Paid</TableCell>
-          <TableCell>Credit Card</TableCell>
-        </TableRow>
+        {tableData?.map((data, index: number) => {
+          return (
+            <TableRow key={data?.id}>
+              <TableCell className="font-medium">
+                <img
+                  src={`data:image/png;base64, ${data?.base64String}`}
+                  alt="image"
+                  className="w-[30px] h-[30px]"
+                />
+              </TableCell>
+              <TableCell>{data?.status}</TableCell>
+              <TableCell className=" cursor-pointer"><a href={`${BackendUrl}/download/${data?.path}.png`}>View</a></TableCell>
+            </TableRow>
+          );
+        })}
       </TableBody>
     </Table>
   );

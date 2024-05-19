@@ -3,7 +3,6 @@ const { imageConversion } = require('./imageProcessing');
 const { getCurrentDate } = require('./utils');
 const schedule = require('node-schedule');
 const { checkForUsersDb, uploadUserImageDb } = require('../db/uploadDb');
-let users = ['1','2','3', '4']; // mock users
 
 let queues = {};
 
@@ -46,15 +45,17 @@ const makeQueue = async () => {
 }
 
 const imageQueues = async (userID, file, name, dateScheduled) => {
-  console.log("dateScheduled",dateScheduled);
-  console.log("getCurrentDate()?.current",getCurrentDate()?.current)
   return new Promise(async (resolve, reject) => {
     let path =  `${name}_${getCurrentDate()?.current}`
     const {minutes, hours, day, month,year} = getCurrentDate();
-    if(parseInt(dateScheduled?.minutes) > minutes || parseInt(dateScheduled?.hours) > hours || dateScheduled?.day > day || dateScheduled?.month > month
+    if(parseInt(dateScheduled?.minutes) > minutes+1 || parseInt(dateScheduled?.hours) > hours || dateScheduled?.day > day || dateScheduled?.month > month
     || dateScheduled?.year > year){
       // Schedule job
-      console.log("here");
+      const date = new Date(dateScheduled?.year, dateScheduled?.month-1, dateScheduled?.day, parseInt(dateScheduled?.hours), parseInt(dateScheduled?.minutes));
+      schedule.scheduleJob(date, function(){
+        console.log('Schedules file succeessfully');
+        queues[userID].add({file: file, name: path, userID: userID})
+      });
       await uploadUserImageDb(userID, path, false, "Scheduled", "", file)
     }else{
       

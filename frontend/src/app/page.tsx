@@ -26,6 +26,8 @@ export default function Home() {
     onError: (error: any | null, variables, context) => {
       console.log(error)
       alert(error?.response?.data?.msg);
+      alert("Please login again, token expired!")
+      router.push('/')
     },
     onSuccess: (data: any, variables, context) => {
       console.log(data);

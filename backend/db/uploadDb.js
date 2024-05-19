@@ -10,7 +10,6 @@ const uploadUserImageDb = async (userId, path, uploaded = false, status = "In Qu
             userId: userId,
             path: path,
             status: status,
-            timestamp: timestamp,
             base64String: base64
           } 
         })
@@ -42,6 +41,11 @@ const checkImagesForUser = (userId) => {
   return new Promise(async (resolve, reject) => {
     try{
       let result = await prisma.images.findMany({
+        orderBy: [
+          {
+            timestamp: 'desc',
+          }
+        ],
         where: {
           userId: userId
         }
@@ -53,5 +57,20 @@ const checkImagesForUser = (userId) => {
   })
 }
 
+const deleteDbImages = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try{
+      let result = await prisma.images.deleteMany({
+        where: {
+          userId: userId
+        }
+      })
+      resolve(result);
+    }catch(error){
+      reject(error)
+    }
+  })
+}
 
-module.exports = { uploadUserImageDb: uploadUserImageDb, checkForUsersDb:  checkForUsersDb, checkImagesForUser: checkImagesForUser}
+
+module.exports = { uploadUserImageDb: uploadUserImageDb, checkForUsersDb:  checkForUsersDb, checkImagesForUser: checkImagesForUser, deleteDbImages: deleteDbImages}

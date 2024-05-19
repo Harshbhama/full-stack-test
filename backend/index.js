@@ -4,6 +4,7 @@ const bodyparser = require("body-parser")
 const cors = require('cors');
 const uploadService = require('./controllers/uploadController');
 const authenticationService = require('./controllers/authenticationController');
+const downloadService = require('./controllers/downloadController');
 const cookies = require("cookie-parser");
 const upload = require("express-fileupload");
 application.use(bodyparser.urlencoded({
@@ -25,13 +26,9 @@ application.use(bodyparser.json({limit: '2mb'}))
 application.use(upload());
 application.use("/upload", uploadService);
 application.use("/authenticate", authenticationService);
-
+application.use("/download", downloadService);
 application.listen(4000, () => {
     console.log("server started at port ", 4000);
 })
-const schedule = require('node-schedule');
-const date = new Date(2024, 4, 19, 18, 45);
-console.log("date",date)
-const job = schedule.scheduleJob(date, function(){
-  console.log('The world is going to end today.');
-});
+
+

@@ -6,6 +6,7 @@ const fileTypes = ["JPG", "PNG", "JPEG"];
 const DragDrop: React.FC<any> = ({setFile}) => {
   const handleChange = (file: any) => {
     setFile(file)
+    alert("File uploaded, please click on Save button to upload to server !")
     // setFile(event.target.files[0])
   };
   const css = `

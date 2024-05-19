@@ -26,7 +26,7 @@ model images {
   userId String? @map("userid")
   path String?
   status String?
-  timestamp String?
+  timestamp DateTime  @default(now())
   jobId String?
   base64String String?
 }
