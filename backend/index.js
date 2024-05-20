@@ -11,15 +11,16 @@ application.use(bodyparser.urlencoded({
     extended: true
 }));
 
-application.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Private-Network', true);
-    next();
-});
+// application.use(function(req, res, next) {
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+//     res.setHeader('Access-Control-Allow-Private-Network', true);
+//     next();
+// });
 
 require('dotenv').config();
 var corsOptions = {
-    origin: '*' };
+    credentials: true,
+    origin: 'http://13.126.92.162:3000' };
 application.use(cors(corsOptions));
 application.use(cookies())
 application.use(bodyparser.json({limit: '2mb'}))
