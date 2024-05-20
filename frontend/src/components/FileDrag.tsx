@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 
+interface DragDropProps {
+  setFile: React.Dispatch<React.SetStateAction<File | null>>;
+}
+
 const fileTypes = ["JPG", "PNG", "JPEG"];
 
-const DragDrop: React.FC<any> = ({setFile}) => {
-  const handleChange = (file: any) => {
+const DragDrop: React.FC<DragDropProps> = ({setFile}) => {
+  const handleChange = (file: File) => {
     setFile(file)
     alert("File uploaded, please click on Save button to upload to server !")
     // setFile(event.target.files[0])

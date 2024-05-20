@@ -6,11 +6,11 @@ interface Story {
     name: String,
     className: string
   }
-  setFile: any
+  setFile: React.Dispatch<React.SetStateAction<File | null>>
 }
 
 export const FileUpload: React.FC<Story> = ({fileProps, setFile}) => {
-  const ref = useRef(null);
+  const ref = useRef<HTMLInputElement>(null);
   const handleChange = (event: any) => {
     console.log(event.target.files[0])
     setFile(event.target.files[0])

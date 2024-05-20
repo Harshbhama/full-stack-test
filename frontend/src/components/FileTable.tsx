@@ -31,7 +31,7 @@ const FileTable: React.FC<UserDataTypes> = ({ tableData }) => {
                 />
               </TableCell>
               <TableCell>{data?.status}</TableCell>
-              <TableCell className=" cursor-pointer"><a href={data?.status === "Published" ? `${BackendUrl}/download/${data?.path}.png` : '#'}>View</a></TableCell>
+              <TableCell className=" cursor-pointer"><a href={data?.status === "Published" ? `${BackendUrl}/download/${data?.path}.png` : '#'} className={`${data?.status === 'Published' ?  'text-[black]' : 'text-[grey]'}`} >View</a></TableCell>
             </TableRow>
           );
         })}

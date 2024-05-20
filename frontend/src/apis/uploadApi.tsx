@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 const BackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
 export const uploadImage = (payload: any, inputProps: any) => {
-  return new Promise<any>((resolve, reject) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
     axios({
       url: `${BackendUrl}/upload/uploadImage`,
       method: 'post',
@@ -11,7 +11,7 @@ export const uploadImage = (payload: any, inputProps: any) => {
         "Content-Type": "multipart/form-data",
         inputData: JSON.stringify(inputProps)
       },
-    }).then((result: any) => {
+    }).then((result: AxiosResponse<any>) => {
       resolve(result)
     }).catch(err => {
       reject(err)
@@ -19,12 +19,12 @@ export const uploadImage = (payload: any, inputProps: any) => {
   })
 }
 export const fetchFiles = () => {
-  return new Promise<any>((resolve, reject) => {
+  return new Promise<AxiosResponse>((resolve, reject) => {
     axios({
       url: `${BackendUrl}/upload/images`,
       method: 'get',
       withCredentials: true,
-    }).then((result: any) => {
+    }).then((result: AxiosResponse<any>) => {
       console.log("result", result);
       resolve(result)
     }).catch(err => {
