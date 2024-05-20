@@ -19,7 +19,7 @@ application.use(function(req, res, next) {
 
 require('dotenv').config();
 var corsOptions = {
-    origin: 'http://localhost:3000' };
+    origin: '*' };
 application.use(cors(corsOptions));
 application.use(cookies())
 application.use(bodyparser.json({limit: '2mb'}))
