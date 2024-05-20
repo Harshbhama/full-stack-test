@@ -1,9 +1,9 @@
 **Image Upload Platform** 
 
 **Tech Used**
-Frontend - NextJs, Typescript, React-Query, Tailwind css
-Backend - NodeJs, ExpressJs, Prisma ORM, Postgresql, Bull (Queues and Jobs), Node-Scheduler (cron jobs), Jimp Module (Image processing)
-Deployments - Amazon ec2, Docker
+- Frontend - NextJs, Typescript, React-Query, Tailwind css
+- Backend - NodeJs, ExpressJs, Prisma ORM, Postgresql, Bull (Queues and Jobs), Node-Scheduler (cron jobs), Jimp Module (Image processing)
+- Deployments - Amazon ec2, Docker
 
 **Features**
 - Api security using JWT Token authentication, HTTP only cookie based token storage, Input validators using validator module.
@@ -24,10 +24,10 @@ TOKEN_KEY="abc1234"
 
 **Functionality for Queue and Cron jobs**
 Backend -
-As soon as the project starts, first server checks for the available registered users, then it creates user specific queues.
-If a new user is registered, a seperate queue is created for that user as well.
-Upload feature inputs Date and Time, by comparing current Date/Time, we check if it needs to uploaded via quere or needs to be scheduled.
-Based on the condition image is either uploaded or scheduled.
+- As soon as the project starts, first server checks for the available registered users, then it creates user specific queues.
+- If a new user is registered, a seperate queue is created for that user as well.
+- Upload feature inputs Date and Time, by comparing current Date/Time, we check if it needs to uploaded via quere or needs to be scheduled.
+- Based on the condition image is either uploaded or scheduled.
 
 **Demo**
 - http://15.206.82.156:3000/ - https://www.loom.com/share/12cec3081df64ed0a9632e32e66f1ea9
