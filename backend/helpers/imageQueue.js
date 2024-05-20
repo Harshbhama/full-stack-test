@@ -79,7 +79,7 @@ const timeOut = async () => {
     },5000)
   })
 }
-//makeQueue();
-console.log("Commenting out make queue to test")
+makeQueue();
+console.log("Make Queues now")
 
 module.exports = { imageQueues: imageQueues, makeQueue: makeQueue }
