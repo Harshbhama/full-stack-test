@@ -4,13 +4,17 @@ const { getCurrentDate } = require('./utils');
 const schedule = require('node-schedule');
 const { checkForUsersDb, uploadUserImageDb } = require('../db/uploadDb');
 
+const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
 let queues = {};
 
 const makeQueue = async () => { // This function is called at initialization and every time new user is registered.
   let usersFromDb = await checkForUsersDb(); // Making Queues for each user.
   for(let i=0; i<usersFromDb.length; i++){
-    queues[usersFromDb[i]?.id] = new Queue(`${usersFromDb[i]?.id}_image_processing`, 'redis://127.0.0.1:6379')
+    queues[usersFromDb[i]?.id] = new Queue(`${usersFromDb[i]?.id}_image_processing`, process.env.REDIS_URL)
   }
+  console.log("Changes to test restart");
+  console.log("usersFromDb",usersFromDb);
+  console.log("In make Queues", queues);
   for(let key in queues){
     let imageQueue = queues[key]
     imageQueue.process(async function (job, done) {

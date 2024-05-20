@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { UserDataTypes } from "@/helpers/interface";
-const BackendUrl = process.env.BACKEND_URL || "http://localhost:4000"
+const BackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
 const FileTable: React.FC<UserDataTypes> = ({ tableData }) => {
   return (
     <Table>

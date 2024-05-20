@@ -1,9 +1,9 @@
 import axios from "axios";
-const BackendUrl = process.env.BACKEND_URL || "http://localhost:4000"
+const BackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
 export const uploadImage = (payload: any, inputProps: any) => {
   return new Promise<any>((resolve, reject) => {
     axios({
-      url: 'http://localhost:4000/upload/uploadImage',
+      url: `${BackendUrl}/upload/uploadImage`,
       method: 'post',
       data: payload.formData, 
       withCredentials: true,

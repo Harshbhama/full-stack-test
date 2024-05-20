@@ -1,6 +1,6 @@
 import axios from "axios";
 import { FormDetailTypes } from "@/helpers/interface";
-const BackendUrl = process.env.BACKEND_URL || "http://localhost:4000"
+const BackendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
 export const loginUser = (payload: FormDetailTypes, register: Boolean) => {
   return new Promise<void>((resolve, reject) => {
     axios({
