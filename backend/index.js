@@ -20,7 +20,7 @@ application.use(bodyparser.urlencoded({
 require('dotenv').config();
 var corsOptions = {
     credentials: true,
-    origin: 'http://13.232.73.226:3000' };
+    origin: 'http://15.206.82.156:3000' };
 application.use(cors(corsOptions));
 application.use(cookies())
 application.use(bodyparser.json({limit: '2mb'}))
